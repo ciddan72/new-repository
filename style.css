@@ -1,0 +1,149 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  background: #fefefe;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.settings-menu {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 100;
+}
+
+.hidden {
+  display: none;
+}
+
+.correct-ball {
+  background-color: transparent !important;
+  border: 2px dashed gold !important;
+  position: relative;
+  transform: scale(0.8);
+}
+
+.correct-ball::before {
+  content: "$";
+  font-size: 48px;
+  color: gold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ball {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid #000;
+  transition: all 0.5s ease;
+  transform: scale(1);
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.blue {
+  background-color: navy;
+}
+
+.green {
+  background-color: green;
+}
+
+.ball.match-yellow {
+  background-color: yellow !important;
+}
+
+.ball.match-blue {
+  background-color: navy !important;
+}
+
+.ball.match-green {
+  background-color: green !important;
+}
+
+.game-container {
+  max-width: 400px;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+  background-color: white;
+  position: relative;
+}
+
+.game-board {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.game-over {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: white;
+  padding: 20px;
+  border: 2px solid red;
+  border-radius: 8px;
+}
+
+@keyframes wipe {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.wipe-out {
+  animation: wipe 2s forwards;
+}
+
+.money-amount {
+  font-weight: bold;
+  color: green;
+}
