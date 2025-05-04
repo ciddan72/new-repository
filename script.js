@@ -3,24 +3,31 @@ let currentLevel = 1;
 const maxLevel = 30;
 let money = 0;
 let inputLocked = false;
-let nickname = "";
 let timerInterval;
 let timeLeft = 0;
+let nickname = localStorage.getItem("nickname");
 
+// DOM
 const levelEl = document.getElementById("level");
 const moneyEl = document.getElementById("money");
 const resultEl = document.getElementById("result");
-const gameContainer = document.getElementById("game");
-const gameOver = document.getElementById("game-over");
-const nicknameDisplay = document.getElementById("nickname-display");
-const highScoreDisplay = document.getElementById("high-score");
 const timerEl = document.getElementById("timer");
+const gameContainer = document.getElementById("game");
+const startScreen = document.getElementById("start-screen");
+const gameOver = document.getElementById("game-over");
+const scoreboard = document.getElementById("scoreboard");
 
+// Ses
 const soundSuccess = document.getElementById("soundSuccess");
 const soundFail = document.getElementById("soundFail");
 
-// Başlangıç ekranından başla
-function startGame() {
+if (nickname) {
+  startScreen.classList.add("hidden");
+  gameContainer.classList.remove("hidden");
+  startGame();
+}
+
+function handleStart() {
   const input = document.getElementById("nickname-input");
   if (!input.value.trim()) {
     alert("Please enter a nickname!");
@@ -28,17 +35,13 @@ function startGame() {
   }
 
   nickname = input.value.trim();
-  document.getElementById(
-    "nickname-display"
-  ).textContent = `Player: ${nickname}`;
-  document.getElementById("start-screen").classList.add("hidden");
+  localStorage.setItem("nickname", nickname);
+  startScreen.classList.add("hidden");
   gameContainer.classList.remove("hidden");
-
-  resetGame();
-  startLevel();
+  startGame();
 }
 
-function resetGame() {
+function startGame() {
   currentLevel = 1;
   money = 0;
   levelEl.textContent = currentLevel;
@@ -46,6 +49,7 @@ function resetGame() {
   resultEl.textContent = "";
   gameOver.classList.add("hidden");
   gameContainer.classList.remove("hidden");
+  startLevel();
 }
 
 function startLevel() {
@@ -87,19 +91,9 @@ function makeGuess(guess) {
 
   const selectedBall = document.getElementById(`ball-${guess}`);
   const allBalls = document.querySelectorAll(".ball");
-  const selectedColor = selectedBall.classList.contains("yellow")
-    ? "yellow"
-    : selectedBall.classList.contains("blue")
-    ? "blue"
-    : "green";
 
   allBalls.forEach((ball) => {
-    ball.classList.remove(
-      "correct-ball",
-      "match-yellow",
-      "match-blue",
-      "match-green"
-    );
+    ball.classList.remove("correct-ball");
     ball.style.transform = "scale(1)";
   });
 
@@ -110,12 +104,6 @@ function makeGuess(guess) {
     resultEl.innerHTML = `<span style="color:green;font-weight:bold;">✅ You earned $${money}!</span>`;
     playSound(soundSuccess);
 
-    document.querySelectorAll(".ball").forEach((ball, i) => {
-      if (i !== guess) {
-        ball.classList.add(`match-${selectedColor}`);
-      }
-    });
-
     setTimeout(() => {
       if (currentLevel < maxLevel) {
         currentLevel++;
@@ -124,8 +112,9 @@ function makeGuess(guess) {
         startLevel();
       } else {
         resultEl.textContent = "🏆 You completed all levels!";
+        saveHighScore();
       }
-    }, 2000);
+    }, 1500);
   } else {
     playSound(soundFail);
     endGame();
@@ -135,34 +124,39 @@ function makeGuess(guess) {
 function endGame() {
   inputLocked = true;
   resultEl.textContent = "❌ Time's up or wrong guess!";
-  gameContainer.classList.add("wipe-out");
-
-  setTimeout(() => {
-    gameContainer.classList.add("hidden");
-    gameOver.classList.remove("hidden");
-
-    const storedHighScore = parseInt(localStorage.getItem(nickname)) || 0;
-    if (money > storedHighScore) {
-      localStorage.setItem(nickname, money);
-    }
-    highScoreDisplay.textContent = "$" + Math.max(money, storedHighScore);
-  }, 2000);
+  gameContainer.classList.add("hidden");
+  gameOver.classList.remove("hidden");
+  saveHighScore();
+  showScoreboard();
 }
 
 function resetBalls() {
   document.querySelectorAll(".ball").forEach((ball) => {
-    ball.classList.remove(
-      "correct-ball",
-      "match-yellow",
-      "match-blue",
-      "match-green"
-    );
+    ball.classList.remove("correct-ball");
     ball.style.transform = "scale(1)";
   });
 }
 
+function saveHighScore() {
+  const scores = JSON.parse(localStorage.getItem("scores")) || {};
+  scores[nickname] = Math.max(scores[nickname] || 0, currentLevel - 1);
+  localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+function showScoreboard() {
+  const scores = JSON.parse(localStorage.getItem("scores")) || {};
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+  scoreboard.innerHTML = "";
+  sorted.forEach(([name, score]) => {
+    const li = document.createElement("li");
+    li.textContent = `${name}: Level ${score}`;
+    scoreboard.appendChild(li);
+  });
+}
+
 function restartGame() {
-  document.getElementById("start-screen").classList.remove("hidden");
   gameOver.classList.add("hidden");
-  gameContainer.classList.add("hidden");
+  gameContainer.classList.remove("hidden");
+  startGame();
 }
