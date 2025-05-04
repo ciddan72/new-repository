@@ -9,47 +9,51 @@
   <body>
     <div class="game-wrapper">
       <h1 class="main-title">Sick Game 🤢</h1>
-
-      <div class="start-screen" id="start-screen">
-        <input type="text" id="nickname-input" placeholder="Your nickname" />
-        <button onclick="handleStart()">Start</button>
-      </div>
-
-      <div class="game-container hidden" id="game">
-        <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
-        <div class="settings-menu hidden" id="settingsMenu">
-          <label><input type="checkbox" id="soundToggle" checked /> Sound</label
-          ><br />
-          <label
-            ><input type="checkbox" id="vibrationToggle" checked />
-            Vibration</label
-          >
+      <div class="game-box">
+        <div class="start-screen" id="start-screen">
+          <input type="text" id="nickname-input" placeholder="Your nickname" />
+          <button onclick="handleStart()">Start</button>
         </div>
 
-        <p>Level: <span id="level">1</span> / 30</p>
-        <p>World Rank: <span id="money" class="money-amount">$0</span></p>
-        <p>Time Left: <span id="timer">--</span> sec</p>
+        <div class="game-container hidden" id="game">
+          <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
+          <div class="settings-menu hidden" id="settingsMenu">
+            <label
+              ><input type="checkbox" id="soundToggle" checked /> Sound</label
+            ><br />
+            <label
+              ><input type="checkbox" id="vibrationToggle" checked />
+              Vibration</label
+            >
+          </div>
 
-        <div class="game-board">
-          <div class="ball yellow" onclick="makeGuess(0)" id="ball-0"></div>
-          <div class="ball blue" onclick="makeGuess(1)" id="ball-1"></div>
-          <div class="ball green" onclick="makeGuess(2)" id="ball-2"></div>
+          <p>Level: <span id="level">1</span> / 30</p>
+          <p>World Rank: <span id="money" class="money-amount">$0</span></p>
+          <p>Time Left: <span id="timer">--</span> sec</p>
+
+          <div class="game-board">
+            <div class="row">
+              <div class="ball yellow" onclick="makeGuess(0)" id="ball-0"></div>
+              <div class="ball blue" onclick="makeGuess(1)" id="ball-1"></div>
+            </div>
+            <div class="row center">
+              <div class="ball green" onclick="makeGuess(2)" id="ball-2"></div>
+            </div>
+          </div>
+
+          <div class="result" id="result"></div>
         </div>
 
-        <div class="result" id="result"></div>
+        <div class="game-over hidden" id="game-over">
+          <p>❌ You failed!</p>
+          <p>Top Player:</p>
+          <p id="top-player" class="money-amount"></p>
+          <button onclick="restartGame()">Play Again</button>
+        </div>
       </div>
-
-      <div class="game-over hidden" id="game-over">
-        <p>❌ You failed!</p>
-        <p>High Scores:</p>
-        <ul id="scoreboard"></ul>
-        <button onclick="restartGame()">Play Again</button>
-      </div>
+      <audio id="soundSuccess" src="sounds/success.mp3"></audio>
+      <audio id="soundFail" src="sounds/fail.mp3"></audio>
+      <script src="script.js"></script>
     </div>
-
-    <audio id="soundSuccess" src="sounds/success.mp3"></audio>
-    <audio id="soundFail" src="sounds/fail.mp3"></audio>
-
-    <script src="script.js"></script>
   </body>
 </html>

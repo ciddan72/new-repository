@@ -14,8 +14,7 @@ const resultEl = document.getElementById("result");
 const gameContainer = document.getElementById("game");
 const startScreen = document.getElementById("start-screen");
 const gameOver = document.getElementById("game-over");
-const scoreboard = document.getElementById("scoreboard");
-
+const topPlayer = document.getElementById("top-player");
 const soundSuccess = document.getElementById("soundSuccess");
 const soundFail = document.getElementById("soundFail");
 
@@ -69,22 +68,38 @@ function makeGuess(guess) {
   clearInterval(timerInterval);
 
   const selectedBall = document.getElementById(`ball-${guess}`);
-  document.querySelectorAll(".ball").forEach((b) => {
-    b.classList.remove("correct-ball");
-    b.style.transform = "scale(1)";
+  const allBalls = document.querySelectorAll(".ball");
+  const selectedColor = selectedBall.classList.contains("yellow")
+    ? "yellow"
+    : selectedBall.classList.contains("blue")
+    ? "blue"
+    : "green";
+
+  allBalls.forEach((ball) => {
+    ball.classList.remove(
+      "correct-ball",
+      "match-yellow",
+      "match-blue",
+      "match-green"
+    );
+    ball.style.transform = "scale(1)";
   });
 
   if (guess === coinPosition) {
     selectedBall.classList.add("correct-ball");
+    allBalls.forEach((ball, i) => {
+      if (i !== guess) ball.classList.add(`match-${selectedColor}`);
+    });
     money = currentLevel;
     updateDisplay();
+    resultEl.innerHTML = `<span style="color:green;font-weight:bold;">You win: $${money}</span>`;
     playSound(soundSuccess);
     setTimeout(() => {
       if (currentLevel < maxLevel) {
         currentLevel++;
         startLevel();
       } else {
-        resultEl.textContent = "🏆 Completed all levels!";
+        resultEl.textContent = "🏆 All levels completed!";
         saveScore();
       }
     }, 1500);
@@ -104,14 +119,7 @@ function endGame() {
   gameContainer.classList.add("hidden");
   gameOver.classList.remove("hidden");
   saveScore();
-  showScoreboard();
-}
-
-function resetBalls() {
-  document.querySelectorAll(".ball").forEach((b) => {
-    b.classList.remove("correct-ball");
-    b.style.transform = "scale(1)";
-  });
+  showTopPlayer();
 }
 
 function playSound(sound) {
@@ -121,21 +129,28 @@ function playSound(sound) {
   }
 }
 
+function resetBalls() {
+  document.querySelectorAll(".ball").forEach((ball) => {
+    ball.classList.remove(
+      "correct-ball",
+      "match-yellow",
+      "match-blue",
+      "match-green"
+    );
+    ball.style.transform = "scale(1)";
+  });
+}
+
 function saveScore() {
   const scores = JSON.parse(localStorage.getItem("scores")) || {};
   scores[nickname] = Math.max(scores[nickname] || 0, currentLevel - 1);
   localStorage.setItem("scores", JSON.stringify(scores));
 }
 
-function showScoreboard() {
+function showTopPlayer() {
   const scores = JSON.parse(localStorage.getItem("scores")) || {};
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  scoreboard.innerHTML = "";
-  sorted.forEach(([name, score]) => {
-    const li = document.createElement("li");
-    li.textContent = `${name}: Level ${score}`;
-    scoreboard.appendChild(li);
-  });
+  let top = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
+  topPlayer.textContent = top ? `${top[0]}: Level ${top[1]}` : "No scores yet";
 }
 
 function restartGame() {

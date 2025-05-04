@@ -1,4 +1,3 @@
-html,
 body {
   margin: 0;
   padding: 0;
@@ -6,29 +5,38 @@ body {
   background: #fefefe;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
   text-align: center;
 }
 
 .game-wrapper {
-  max-width: 500px;
   width: 100%;
+  max-width: 500px;
   padding: 20px;
 }
 
 .main-title {
   font-size: 36px;
-  margin: 20px 0;
+  margin: 10px auto;
+}
+
+.game-box {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  background: white;
+  position: relative;
+}
+
+.hidden {
+  display: none;
 }
 
 .start-screen,
 .game-container,
 .game-over {
-  background: #fff;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
+  margin-top: 10px;
 }
 
 input#nickname-input {
@@ -42,10 +50,6 @@ button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-}
-
-.hidden {
-  display: none;
 }
 
 .settings-icon {
@@ -67,12 +71,22 @@ button {
   font-size: 14px;
 }
 
+.row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.row.center {
+  justify-content: center;
+}
+
 .ball {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   border: 2px solid #000;
-  margin: 10px;
   transition: all 0.4s ease;
 }
 
@@ -103,48 +117,28 @@ button {
   transform: translate(-50%, -50%);
 }
 
-.game-board {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0;
-}
-
 .money-amount {
   font-weight: bold;
   color: green;
 }
 
-#scoreboard {
-  text-align: left;
-  padding: 0;
-  list-style: none;
-  margin-top: 10px;
-}
-
-#scoreboard li {
-  font-size: 15px;
-  margin: 3px 0;
+.result {
+  margin-top: 15px;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 480px) {
   .main-title {
     font-size: 28px;
   }
-
   .ball {
     width: 50px;
     height: 50px;
   }
-
   .correct-ball::before {
     font-size: 28px;
   }
-
-  .game-container,
-  .start-screen,
-  .game-over {
-    width: 95%;
+  .game-box {
+    padding: 15px;
   }
 }
