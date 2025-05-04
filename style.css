@@ -7,8 +7,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  height: auto;
+  height: 100vh;
   margin: 0;
   position: relative;
   background: #fefefe;
@@ -22,6 +21,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .settings-icon {
@@ -103,7 +105,7 @@ body {
 
 .game-container {
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   padding: 20px;
   border: 2px solid #ccc;
   border-radius: 10px;
@@ -111,6 +113,7 @@ body {
   background-color: white;
   position: relative;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .game-board {
@@ -159,9 +162,16 @@ body {
   color: green;
 }
 
+.timer {
+  font-size: 18px;
+  font-weight: bold;
+  color: #d00;
+  margin-top: 10px;
+}
+
 @media screen and (max-width: 480px) {
   .game-container {
-    width: 90%;
+    width: 95%;
     padding: 10px;
   }
 

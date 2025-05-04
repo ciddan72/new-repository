@@ -2,16 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>Sick Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KodX</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="game-wrapper">
-      <div class="game-container" id="game">
+      <div class="start-screen" id="start-screen">
+        <h1>KodX Game 🤢</h1>
+        <p>Enter your nickname to begin:</p>
+        <input type="text" id="nickname-input" placeholder="Nickname" />
+        <button onclick="startGame()">Start</button>
+      </div>
+
+      <div class="game-container hidden" id="game">
         <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
         <div class="settings-menu hidden" id="settingsMenu">
           <label><input type="checkbox" id="soundToggle" checked /> Sound</label
@@ -22,10 +26,10 @@
           >
         </div>
 
-        <h1>Sick Game 🤢</h1>
+        <h2 id="nickname-display"></h2>
         <p>Level: <span id="level">1</span> / 30</p>
-        <p>Money Earned: <span id="money" class="money-amount">$0</span></p>
-        <p>Which ball hides the coin?</p>
+        <p>World Rank: <span id="money" class="money-amount">$0</span></p>
+        <p>Time Left: <span id="timer">--</span> sec</p>
 
         <div class="game-board">
           <div class="ball yellow" onclick="makeGuess(0)" id="ball-0"></div>
@@ -38,6 +42,7 @@
 
       <div class="game-over hidden" id="game-over">
         <p>❌ You failed!</p>
+        <p>High Score: <span id="high-score"></span></p>
         <button onclick="restartGame()">Play Again</button>
       </div>
     </div>
