@@ -15,6 +15,7 @@ const gameContainer = document.getElementById("game");
 const startScreen = document.getElementById("start-screen");
 const gameOver = document.getElementById("game-over");
 const topPlayer = document.getElementById("top-player");
+const playCountEl = document.getElementById("play-count");
 const soundSuccess = document.getElementById("soundSuccess");
 const soundFail = document.getElementById("soundFail");
 
@@ -39,6 +40,7 @@ function startGame() {
   money = 0;
   updateDisplay();
   gameOver.classList.add("hidden");
+  incrementPlayCount();
   startLevel();
 }
 
@@ -161,4 +163,63 @@ function restartGame() {
 
 function toggleSettings() {
   document.getElementById("settingsMenu").classList.toggle("hidden");
+}
+
+function incrementPlayCount() {
+  let count = Number(localStorage.getItem("playCount")) || 0;
+  count++;
+  localStorage.setItem("playCount", count);
+  const word = numberToWords(count);
+  playCountEl.textContent = `Played ${count} times - ${word}`;
+}
+
+function numberToWords(n) {
+  const ones = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+  ];
+  const teens = [
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+  ];
+  const tens = [
+    "",
+    "",
+    "twenty",
+    "thirty",
+    "forty",
+    "fifty",
+    "sixty",
+    "seventy",
+    "eighty",
+    "ninety",
+  ];
+  if (n < 10) return ones[n];
+  if (n < 20) return teens[n - 10];
+  if (n < 100) {
+    const t = Math.floor(n / 10);
+    const o = n % 10;
+    return tens[t] + (o ? "-" + ones[o] : "");
+  }
+  return n.toString();
+}
+
+function handlePlayCountClick() {
+  alert("This feature will show global stats in the future!");
 }

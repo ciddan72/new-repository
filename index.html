@@ -42,6 +42,11 @@
           </div>
 
           <div class="result" id="result"></div>
+          <p
+            id="play-count"
+            class="play-count"
+            onclick="handlePlayCountClick()"
+          ></p>
         </div>
 
         <div class="game-over hidden" id="game-over">
@@ -51,6 +56,7 @@
           <button onclick="restartGame()">Play Again</button>
         </div>
       </div>
+
       <audio id="soundSuccess" src="sounds/success.mp3"></audio>
       <audio id="soundFail" src="sounds/fail.mp3"></audio>
       <script src="script.js"></script>

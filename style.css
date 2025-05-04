@@ -144,6 +144,14 @@ button {
   font-weight: bold;
 }
 
+.play-count {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 480px) {
   .main-title {
     font-size: 28px;
