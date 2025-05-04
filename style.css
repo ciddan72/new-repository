@@ -100,6 +100,16 @@ button {
   background: green;
 }
 
+.ball.match-yellow {
+  background-color: yellow !important;
+}
+.ball.match-blue {
+  background-color: navy !important;
+}
+.ball.match-green {
+  background-color: green !important;
+}
+
 .correct-ball {
   background: transparent !important;
   border: 2px dashed gold !important;
@@ -125,6 +135,13 @@ button {
 .result {
   margin-top: 15px;
   font-size: 18px;
+}
+
+#top-player {
+  margin-top: 10px;
+  font-size: 18px;
+  color: green;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 480px) {
