@@ -7,8 +7,6 @@ const moneyEl = document.getElementById("money");
 const playCountEl = document.getElementById("play-count");
 const nicknameInput = document.getElementById("nickname-input");
 const startScreen = document.getElementById("start-screen");
-const soundSuccess = document.getElementById("soundSuccess");
-const soundFail = document.getElementById("soundFail");
 
 let correctIndex;
 let level = 1;
@@ -71,9 +69,6 @@ function makeGuess(index) {
       ball.classList.add(`match-${color}`);
     });
 
-    soundSuccess.currentTime = 0;
-    soundSuccess.play();
-
     money++;
     level++;
 
@@ -91,9 +86,6 @@ function makeGuess(index) {
 }
 
 function handleWrongGuess() {
-  soundFail.currentTime = 0;
-  soundFail.play();
-
   totalPlays++;
   localStorage.setItem("totalPlays", totalPlays);
 
@@ -128,10 +120,11 @@ function updateUI() {
 function assignBallColors() {
   const balls = document.querySelectorAll(".ball");
   const colors = ["yellow", "blue", "green"];
+  const shuffled = [...colors].sort(() => 0.5 - Math.random()); // Shuffle
+
   balls.forEach((ball, i) => {
-    ball.className = "ball";
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    ball.classList.add(randomColor);
+    ball.className = "ball"; // Reset classes
+    ball.classList.add(shuffled[i]); // Assign unique color
   });
 }
 
@@ -147,7 +140,47 @@ function toggleSettings() {
 }
 
 function numberToWords(num) {
-  if (num === 0) return "zero";
+  const ones = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+  ];
+  const teens = [
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+  ];
+  const tens = [
+    "",
+    "",
+    "twenty",
+    "thirty",
+    "forty",
+    "fifty",
+    "sixty",
+    "seventy",
+    "eighty",
+    "ninety",
+  ];
+
+  if (num < 10) return ones[num];
+  if (num < 20) return teens[num - 10];
+  if (num < 100)
+    return `${tens[Math.floor(num / 10)]} ${ones[num % 10]}`.trim();
   return num.toLocaleString("en-US");
 }
 
